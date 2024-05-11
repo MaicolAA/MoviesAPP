@@ -3,6 +3,8 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 # Getting Started
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+>
+>Ejercicio practico de desarrollo de moviles para conocer la librería realm y darle un uso bastante sencillo 
 
 ## Step 1: Start the Metro Server
 
