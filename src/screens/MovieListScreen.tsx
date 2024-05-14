@@ -40,7 +40,7 @@ const MovieListScreen = () => {
   };
 
   const handleEditMovie = (movie: Movie) => {
-    navigation.navigate('AddEditMovie', { movie });
+    navigation.navigate('ModifyMovie', { movie });
   };
 
   return (
@@ -53,7 +53,7 @@ const MovieListScreen = () => {
           <MovieItem item={item} onEdit={handleEditMovie} onDelete={handleDeleteMovie} />
         )}
       />
-      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddEditMovie', { movie: undefined })}>
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('ModifyMovie', { movie: undefined })}>
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
     </View>

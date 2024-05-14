@@ -12,7 +12,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="MovieList">
         <Stack.Screen name="MovieList" component={MovieListScreen} />
-        <Stack.Screen name="AddEditMovie" component={AddEditMovieScreen} />
+        <Stack.Screen name="ModifyMovie" component={AddEditMovieScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
