@@ -9,26 +9,33 @@ import { RootStackParamList } from '../utils/types';
 
 const MovieListScreen = () => {
   const [realm, setRealm] = useState<Realm | null>(null);
-  const [movies, setMovies] = useState<Realm.Results<Movie>>();
+  const [movies, setMovies] = useState<Realm.Results<Movie> | null>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
-    getRealmInstance().then(realmInstance => {
+    const setupRealm = async () => {
+      const realmInstance = await getRealmInstance();
       setRealm(realmInstance);
-      setMovies(getMovies(realmInstance));
-    });
+      const movies = realmInstance.objects<Movie>('Movie');
+      setMovies(movies);
 
-    return () => {
-      if (realm) {
-        realm.close();
-      }
+      const moviesListener = () => setMovies(realmInstance.objects<Movie>('Movie')); 
+      movies.addListener(moviesListener);
+
+      return () => {
+        movies.removeListener(moviesListener);
+        if (realmInstance) {
+          realmInstance.close();
+        }
+      };
     };
+
+    setupRealm();
   }, []);
 
   const handleDeleteMovie = (id: number) => {
     if (realm) {
       deleteMovie(realm, id);
-      setMovies(getMovies(realm));
     }
   };
 
