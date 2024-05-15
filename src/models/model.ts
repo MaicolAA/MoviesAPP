@@ -1,21 +1,21 @@
 import Realm from 'realm';
 
-class Movie extends Realm.Object<Movie> {
+class Task extends Realm.Object<Task> {
   id!: number;
   title!: string;
   description!: string;
-  year!: string;
+  date!: Date;
 
   static schema = {
-    name: 'Movie',
+    name: 'Task',
     properties: {
       id: 'int',
       title: 'string',
       description: 'string',
-      year: 'string',
+      date: 'date'
     },
     primaryKey: 'id',
   };
 }
 
-export default Movie;
+export default Task;

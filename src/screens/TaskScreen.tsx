@@ -2,28 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { View, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import Realm from 'realm';
-import MovieItem from '../components/MovieItem';
-import { getRealmInstance, getMovies, deleteMovie } from '../utils/realm';
-import Movie from '../models/MovieModel';
-import { RootStackParamList } from '../utils/types';
 
-const MovieListScreen = () => {
+import { getRealmInstance, getAllTask, deleteTask } from '../utils/realm';
+import Task from '../models/model';
+import TaskItem from '../components/TaskItem';
+
+import { RootStackParamList } from '../../types';
+
+const TaskScreen = () => {
+
   const [realm, setRealm] = useState<Realm | null>(null);
-  const [movies, setMovies] = useState<Realm.Results<Movie> | null>(null);
+  const [tasks, setTasks] = useState<Realm.Results<Task> | null>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const setupRealm = async () => {
       const realmInstance = await getRealmInstance();
       setRealm(realmInstance);
-      const movies = realmInstance.objects<Movie>('Movie');
-      setMovies(movies);
+      const tasks = realmInstance.objects<Task>('Task');
+      setTasks(tasks);
 
-      const moviesListener = () => setMovies(realmInstance.objects<Movie>('Movie')); 
-      movies.addListener(moviesListener);
+      const taskListener = () => setTasks(realmInstance.objects<Task>('Task')); 
+      tasks.addListener(taskListener);
 
       return () => {
-        movies.removeListener(moviesListener);
+        tasks.removeListener(taskListener);
         if (realmInstance) {
           realmInstance.close();
         }
@@ -33,27 +36,27 @@ const MovieListScreen = () => {
     setupRealm();
   }, []);
 
-  const handleDeleteMovie = (id: number) => {
+  const handleDeleteTask = (id: number) => {
     if (realm) {
-      deleteMovie(realm, id);
+      deleteTask(realm, id);
     }
   };
 
-  const handleEditMovie = (movie: Movie) => {
-    navigation.navigate('ModifyMovie', { movie });
+  const handleEditTask = (task: Task) => {
+    navigation.navigate('task', {task });
   };
 
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.flat}
-        data={movies ? Array.from(movies) : []}
+        data={tasks ? Array.from(tasks) : []}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <MovieItem item={item} onEdit={handleEditMovie} onDelete={handleDeleteMovie} />
+          <TaskItem item={item} onEdit={handleEditTask} onDelete={handleDeleteTask} />
         )}
       />
-      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('ModifyMovie', { movie: undefined })}>
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('task', { task: undefined })}>
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
     </View>
@@ -86,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieListScreen;
+export default TaskScreen;

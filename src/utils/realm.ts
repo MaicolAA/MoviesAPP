@@ -1,43 +1,43 @@
 import Realm from 'realm';
-import Movie from '../models/MovieModel';
+import Task from '../models/model';
 
 export const getRealmInstance = async (): Promise<Realm> => {
   const realm = await Realm.open({
-    schema: [Movie],
+    schema: [Task],
     deleteRealmIfMigrationNeeded: true,
   });
   return realm;
 };
 
-export const getMovies = (realm: Realm): Realm.Results<Movie> => {
-  return realm.objects<Movie>('Movie');
+export const getAllTask = (realm: Realm): Realm.Results<Task> => {
+  return realm.objects<Task>('Task');
 };
 
-export const createMovie = (realm: Realm, title: string, description: string, year: string): void => {
+export const createTask = (realm: Realm, title: string, description: string, date: Date): void => {
   realm.write(() => {
-    realm.create('Movie', {
+    realm.create('Task', {
       id: new Date().getTime(),
       title,
       description,
-      year,
+      date,
     });
   });
 };
 
-export const deleteMovie = (realm: Realm, id: number): void => {
+export const deleteTask = (realm: Realm, id: number): void => {
   realm.write(() => {
-    const movieToDelete = realm.objects<Movie>('Movie').filtered(`id = ${id}`);
-    realm.delete(movieToDelete);
+    const taskToDelete = realm.objects<Task>('Task').filtered(`id = ${id}`);
+    realm.delete(taskToDelete);
   });
 };
 
-export const editMovie = (realm: Realm, id: number, title: string, description: string, year: string): void => {
+export const editTask = (realm: Realm, id: number, title: string, description: string, date: Date): void => {
   realm.write(() => {
-    const movieToEdit = realm.objects<Movie>('Movie').filtered(`id = ${id}`)[0];
-    if (movieToEdit) {
-      movieToEdit.title = title;
-      movieToEdit.description = description;
-      movieToEdit.year = year;
+    const taskToEdit = realm.objects<Task>('Task').filtered(`id = ${id}`)[0];
+    if (taskToEdit) {
+      taskToEdit.title = title;
+      taskToEdit.description = description;
+      taskToEdit.date = date;
     }
   });
 };

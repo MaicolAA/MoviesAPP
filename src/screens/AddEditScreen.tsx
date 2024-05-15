@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import MovieForm from '../components/MovieForm';
-import { getRealmInstance, createMovie, editMovie } from '../utils/realm';
-import Movie from '../models/MovieModel';
+import TaskForm from '../components/TaskView';
+import { getRealmInstance, createTask, editTask } from '../utils/realm';
+import Task from '../models/model';
 
-type AddEditMovieScreenRouteProp = RouteProp<{ params: { movie?: Movie } }, 'params'>;
+type AddEditTaskcreenRouteProp = RouteProp<{ params: { task?: Task } }, 'params'>;
 
-const AddEditMovieScreen = () => {
+const AddEditScreen = () => {
   const [realm, setRealm] = useState<Realm | null>(null);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [year, setYear] = useState<string>('');
+  const [date, setDate] = useState<Date>(new Date());
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editMovieId, setEditMovieId] = useState<number | null>(null);
+  const [editTaskId, setEditTaskId] = useState<number | null>(null);
 
-  const route = useRoute<AddEditMovieScreenRouteProp>();
+  const route = useRoute<AddEditTaskcreenRouteProp>();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -23,13 +23,13 @@ const AddEditMovieScreen = () => {
       setRealm(realmInstance);
     });
 
-    if (route.params?.movie) {
-      const { movie } = route.params;
-      setTitle(movie.title);
-      setDescription(movie.description);
-      setYear(movie.year);
+    if (route.params?.task) {
+      const { task } = route.params;
+      setTitle(task.title);
+      setDescription(task.description);
+      setDate(task.date);
       setIsEditing(true);
-      setEditMovieId(movie.id);
+      setEditTaskId(task.id);
     }
 
     return () => {
@@ -41,10 +41,10 @@ const AddEditMovieScreen = () => {
 
   const handleSubmit = () => {
     if (realm) {
-      if (isEditing && editMovieId !== null) {
-        editMovie(realm, editMovieId, title, description, year);
+      if (isEditing && editTaskId !== null) {
+        editTask(realm, editTaskId, title, description, date);
       } else {
-        createMovie(realm, title, description, year);
+        createTask(realm, title, description, date);
       }
       navigation.goBack();
     }
@@ -52,13 +52,13 @@ const AddEditMovieScreen = () => {
 
   return (
     <View>
-      <MovieForm
+      <TaskForm
         title={title}
         description={description}
-        year={year}
+        date={date}
         setTitle={setTitle}
         setDescription={setDescription}
-        setYear={setYear}
+        setDate={setDate}
         onSubmit={handleSubmit}
         isEditing={isEditing}
       />
@@ -66,4 +66,4 @@ const AddEditMovieScreen = () => {
   );
 };
 
-export default AddEditMovieScreen;
+export default AddEditScreen;
