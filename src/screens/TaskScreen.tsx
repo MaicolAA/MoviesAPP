@@ -3,7 +3,7 @@ import { View, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import Realm from 'realm';
 
-import { getRealmInstance, getAllTask, deleteTask } from '../utils/realm';
+import { getRealmInstance, deleteTask } from '../repository/task';
 import Task from '../models/model';
 import TaskItem from '../components/TaskItem';
 
@@ -57,7 +57,7 @@ const TaskScreen = () => {
         )}
       />
       <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('task', { task: undefined })}>
-        <Text style={styles.addButtonText}>+</Text>
+        <Text style={styles.addButtonText}>Add</Text>
       </TouchableOpacity>
     </View>
   );
@@ -66,26 +66,28 @@ const TaskScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 5,
+    marginBottom:1,
   },
   flat: {
     flex: 1,
     marginBottom: 10,
+    padding:5,
   },
   addButton: {
     position: 'absolute',
     bottom: 20,
     right: 20,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'blue',
+    width: 350,
+    height: 60,
+    borderRadius: 10,
+    backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
   },
   addButtonText: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 20,
   },
 });
 

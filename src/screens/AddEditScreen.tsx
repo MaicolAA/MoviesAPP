@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import TaskForm from '../components/TaskView';
-import { getRealmInstance, createTask, editTask } from '../utils/realm';
+import { getRealmInstance, createTask, editTask } from '../repository/task';
 import Task from '../models/model';
 
 type AddEditTaskcreenRouteProp = RouteProp<{ params: { task?: Task } }, 'params'>;

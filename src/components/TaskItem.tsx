@@ -44,19 +44,19 @@ const TaskItem: React.FC<Props> = ({ item, onEdit, onDelete }) => {
       <View style={{ height: 10 }} />
       <Button title="Edit" onPress={() => onEdit(item)} />
       <View style={{ height: 10 }} />
-      <Button title="Delete" onPress={() => onDelete(item.id)} />
+      <Button title="Delete" onPress={() => onDelete(item.id)} color='red' />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   note: {
-    marginBottom: 10,
-    padding: 20,
+    marginBottom: 1,
+    padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    margin: 10,
+    margin: 0,
   },
   noteTitle: {
     fontWeight: 'bold',

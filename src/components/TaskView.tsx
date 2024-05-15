@@ -17,7 +17,7 @@ const TaskForm: React.FC<Props> = ({ title, description, date, setTitle, setDesc
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const onChange = (event: any, selectedDate?: Date) => {
-    setShowDatePicker(Platform.OS === 'ios');
+    setShowDatePicker(Platform.OS === 'android');
     if (selectedDate) {
       setDate(selectedDate);
     }
@@ -54,7 +54,7 @@ const TaskForm: React.FC<Props> = ({ title, description, date, setTitle, setDesc
           onChange={onChange}
         />
       )}
-      <Button title={isEditing ? "Update" : "Save"} onPress={onSubmit} />
+      <Button title={isEditing ? "Update" : "Save"} onPress={onSubmit} color={'green'}/>
     </View>
   );
 };
